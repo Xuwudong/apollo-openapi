@@ -47,9 +47,10 @@ type client struct {
 	portalAddress string
 	token         string
 	options       ClientOptions
+	host          string
 }
 
-func NewClient(portalAddress, token string, opts ...ClientOption) OpenAPI {
+func NewClient(portalAddress, token string, host string, opts ...ClientOption) OpenAPI {
 	var options ClientOptions
 	for _, opt := range opts {
 		opt(&options)
@@ -69,6 +70,7 @@ func NewClient(portalAddress, token string, opts ...ClientOption) OpenAPI {
 	return &client{
 		portalAddress: normalizeURL(portalAddress),
 		token:         token,
+		host:          host,
 		options:       options,
 	}
 }
@@ -80,6 +82,7 @@ func (c *client) newRequest(method, url string, body io.Reader) (*http.Request, 
 	}
 
 	req.Header.Set("Authorization", c.token)
+	req.Header.Set("Host", c.host)
 	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
 	return req, nil
 }
