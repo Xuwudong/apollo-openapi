@@ -108,8 +108,8 @@ func (c *client) do(method, url string, request, response interface{}) error {
 		status        int
 	)
 	defer func(reqBody, respBody *[]byte) {
-		c.debug("Method: %s, URL: %s, \n Request body: %s,\n Response body: %s",
-			method, url, *reqBody, *respBody)
+		c.debug("Method: %s, URL: %s, header:%v \n Request body: %s,\n Response body: %s",
+			method, url, req.Header, *reqBody, *respBody)
 	}(&reqBody, &respBody)
 
 	if request != nil {
