@@ -84,10 +84,12 @@ func (c *client) newRequest(method, url string, body io.Reader) (*http.Request, 
 	}
 
 	req.Header.Set("Authorization", c.token)
-	req.Header.Set("Host", c.host)
 	req.Header.Set("Content-Type", "application/json;charset=UTF-8")
 	for k, v := range c.header {
 		req.Header.Set(k, v)
+	}
+	if c.host != "" {
+		req.Host = c.host
 	}
 	return req, nil
 }
